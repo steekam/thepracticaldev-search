@@ -14,6 +14,7 @@ class CreateCommentsTable extends Migration
             $table->foreignId("user_id")->constrained();
             $table->foreignId("article_id")->constrained();
             $table->string("parent_id_code")->nullable();
+            $table->float("sentiment_score")->nullable();
             $table->timestamp("created_at");
         });
     }

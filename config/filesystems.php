@@ -48,6 +48,11 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'mocks' => [
+            'driver' => 'local',
+            'root' => base_path('tests/dev_api_mocks'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
