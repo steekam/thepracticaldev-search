@@ -1,0 +1,68 @@
+[
+    {
+        "type_of": "comment",
+        "id_code": "g895",
+        "created_at": "2019-10-07T02:13:37Z",
+        "body_html": "<p>Interesting and inspiring article!</p>\n\n<p>To learn/practice a JS framework I always build the same (video game search) app to focus on the front-end without spending time on the API, build tools... It's also a good way to compare the frameworks. But it may be time to change to another app :)</p>\n\n",
+        "user": {
+            "name": "Victor Cazanave",
+            "username": "victorcazanave",
+            "twitter_username": null,
+            "github_username": "VictorCazanave",
+            "website_url": "https://victorcazanave.com",
+            "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--ERnABYKh--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/190193/6adeb2f2-2c89-4dd7-ba00-ebf125722372.jpeg",
+            "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s--F0J3S32k--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/190193/6adeb2f2-2c89-4dd7-ba00-ebf125722372.jpeg"
+        },
+        "children": [
+            {
+                "type_of": "comment",
+                "id_code": "g8d2",
+                "created_at": "2019-10-07T06:57:59Z",
+                "body_html": "<p>You must be the master of video game searches, no doubt :)</p>\n\n",
+                "user": {
+                    "name": "Simon Holdorf",
+                    "username": "simonholdorf",
+                    "twitter_username": "simonholdorf",
+                    "github_username": "simhol",
+                    "website_url": "https://simonholdorf.com",
+                    "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--8OIBve8p--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/203467/61060b32-0fe3-443c-99e4-a6333e0e5d4e.jpeg",
+                    "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s--lLxl9wZX--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/203467/61060b32-0fe3-443c-99e4-a6333e0e5d4e.jpeg"
+                },
+                "children": [
+                    {
+                        "type_of": "comment",
+                        "id_code": "ppaj",
+                        "created_at": "2020-06-03T19:53:36Z",
+                        "body_html": "<p>😂</p>\n\n",
+                        "user": {
+                            "name": "Sharad Raj (He/Him)",
+                            "username": "sharadcodes",
+                            "twitter_username": null,
+                            "github_username": "sharadcodes",
+                            "website_url": "https://sharadcodes.github.io",
+                            "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--Oo6S-8yW--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/286029/6d195a10-ac09-402c-902c-b1fcf3f7d896.jpg",
+                            "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s--Yx8ronUP--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/286029/6d195a10-ac09-402c-902c-b1fcf3f7d896.jpg"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "type_of": "comment",
+                "id_code": "12koc",
+                "created_at": "2020-07-27T16:16:06Z",
+                "body_html": "<p>best approach imho</p>\n\n",
+                "user": {
+                    "name": "Andrea Cappuccio",
+                    "username": "hood",
+                    "twitter_username": "0xCAP",
+                    "github_username": "hood",
+                    "website_url": "https://stackrant.com",
+                    "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--XRoZaIhe--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/409267/22474398-2223-4c43-a977-9caaf52bd64e.jpeg",
+                    "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s---fvNIUUe--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/409267/22474398-2223-4c43-a977-9caaf52bd64e.jpeg"
+                },
+                "children": []
+            }
+        ]
+    }
+]
