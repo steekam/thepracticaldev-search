@@ -25,7 +25,6 @@ it('can fetch articles from dev.to API', function () {
 
     $this->assertCount(1, $articles = Article::with('comments')->get());
 
-    /** @var Collection $comments */
     $comments = $articles->first()->comments;
 
     $this->assertTrue($comments->isNotEmpty());

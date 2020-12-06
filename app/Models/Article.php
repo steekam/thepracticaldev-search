@@ -66,7 +66,11 @@ class Article extends Model
 
     public function classify_comments(): void
     {
-        collect(CommentsRequest::getCommentsSentiment($this->comments))
+        $comments = $this->comments()->whereNull("sentiment_score")->get();
+
+        if ($comments->isEmpty()) return;
+
+        collect(CommentsRequest::getCommentsSentiment($comments))
         ->each(function (array $response) {
             Comment::where('id_code', $response['id'])
             ->update(['sentiment_score' => $response['sentiment_score']]);

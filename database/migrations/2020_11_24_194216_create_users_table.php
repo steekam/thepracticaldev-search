@@ -12,7 +12,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger("id")->primary();
             $table->string("username")->unique();
             $table->string("name");
-            $table->string("profile_image")->nullable();
+            $table->text("profile_image")->nullable();
         });
     }
 

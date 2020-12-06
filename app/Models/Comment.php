@@ -55,11 +55,11 @@ class Comment extends Model
 
     public function children()
     {
-        return $this->hasMany(Comment::class, 'parent_code_id', 'id_code');
+        return $this->hasMany(Comment::class, 'parent_id_code', 'id_code');
     }
 
     public function parentComment()
     {
-        return $this->belongsTo(Comment::class, 'parent_code_id', 'id_code');
+        return $this->belongsTo(Comment::class, 'parent_id_code', 'id_code');
     }
 }
