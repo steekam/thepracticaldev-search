@@ -3,16 +3,13 @@
 namespace App\Jobs;
 
 use App\Models\Article;
-use App\Models\Comment;
 use App\PracticalDevRequests\ArticleRequest;
-use App\PracticalDevRequests\CommentsRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 
 class FetchArticles implements ShouldQueue
 {
@@ -62,7 +59,7 @@ class FetchArticles implements ShouldQueue
 
         $fetched_articles->mapInto(Collection::class)
         ->map(fn ($article_details) => Article::create_from_response($article_details))
-        ->each(fn (Article $article) => FetchComments::dispatch($article)->onQueue("comments") );
+        ->each(fn (Article $article) => FetchComments::dispatch($article)->onQueue('comments'));
 
         self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
     }
