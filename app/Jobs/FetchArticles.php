@@ -24,11 +24,20 @@ class FetchArticles implements ShouldQueue
 
     private bool $spawnNextPage = true;
 
-    public function __construct(int $current_page, int $results_per_page = 50)
+    public $timeout = 580;
+
+    public $backoff = [30, 60, 90];
+
+    public function __construct(int $current_page, int $results_per_page)
     {
         $this->current_page = $current_page;
 
         $this->results_per_page = $results_per_page;
+    }
+
+    public function retryUntil()
+    {
+        return now()->addHours(2);
     }
 
     public function get_current_page(): int
@@ -43,17 +52,8 @@ class FetchArticles implements ShouldQueue
         return $this;
     }
 
-    private function console_log(string $info): void
-    {
-        if(App::runningInConsole()){
-            echo "[".now()."] {$info} \n";
-        }
-    }
-
     public function handle(): void
     {
-        $this->console_log("Fetching articles from dev_to API");
-
         $fetched_articles = collect(ArticleRequest::getArticles($this->current_page, $this->results_per_page));
 
         if ($fetched_articles->isEmpty()) {
@@ -62,19 +62,7 @@ class FetchArticles implements ShouldQueue
 
         $fetched_articles->mapInto(Collection::class)
         ->map(fn ($article_details) => Article::create_from_response($article_details))
-        ->each(function (Article $article) {
-            $this->console_log("Fetching comments");
-
-            collect(CommentsRequest::getArticleComments($article->id))
-            ->mapInto(Collection::class)
-            ->filter(fn (Collection $comment_details) => !empty($comment_details->get('user')))
-            ->each->put('article_id', $article->id)
-            ->map(fn (Collection $comment_details) => Comment::create_from_details($comment_details));
-
-            $this->console_log("Classifying comments");
-
-            $article->classify_comments();
-        });
+        ->each(fn (Article $article) => FetchComments::dispatch($article)->onQueue("comments") );
 
         self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
     }

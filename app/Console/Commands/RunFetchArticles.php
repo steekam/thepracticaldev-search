@@ -10,7 +10,7 @@ class RunFetchArticles extends Command
 {
     protected $signature = 'fetch_articles
     {--p|page=1 : The starting current page}
-    {--results= : The results per page}
+    {--results=200 : The results per page}
     {--currentonly : Only dispatch the current page}';
 
     protected $description = 'Dispatch the FetchArticles job';
@@ -26,14 +26,7 @@ class RunFetchArticles extends Command
             $fetch_articles_job->preventNextPageSpawn();
         }
 
-        $start_time = now();
-
-        $this->info("Job started at: ".$start_time);
-
-        // TODO: revert to old
-        dispatch_now($fetch_articles_job->preventNextPageSpawn());
-
-        $this->info("Job took: ".$start_time->diffForHumans(now(), CarbonInterface::DIFF_ABSOLUTE));
+        dispatch($fetch_articles_job);
 
         return 0;
     }

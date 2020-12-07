@@ -49,26 +49,27 @@ class Article extends Model
 
     public static function create_from_response(Collection $article_details): Article
     {
-        $article_id = $article_details['id'];
+        $article = self::find($article_details['id']);
 
-        $article_properties = $article_details
-        ->merge([
-            'user_id' => User::get_by_username($article_details['user']['username'])->id,
-            'body_html' => ArticleRequest::getSingleArticle($article_id)['body_html'],
-        ])
-        ->all();
+        if (! $article) {
+            $properties = $article_details->merge([
+                'user_id' => User::get_by_username($article_details['user']['username'])->id,
+                'body_html' => ArticleRequest::getSingleArticle($article_details['id'])['body_html'],
+            ])->all();
+            
+            $article = self::create($properties);
+        }
 
-        return self::firstOrCreate(
-            ['id' => $article_id],
-            $article_properties
-        );
+        return $article;
     }
 
     public function classify_comments(): void
     {
-        $comments = $this->comments()->whereNull("sentiment_score")->get();
+        $comments = $this->comments()->whereNull('sentiment_score')->get();
 
-        if ($comments->isEmpty()) return;
+        if ($comments->isEmpty()) {
+            return;
+        }
 
         collect(CommentsRequest::getCommentsSentiment($comments))
         ->each(function (array $response) {
