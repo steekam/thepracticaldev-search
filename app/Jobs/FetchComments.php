@@ -20,7 +20,7 @@ class FetchComments implements ShouldQueue
 
     public $timeout = 300;
 
-    public $backoff = [30, 60];
+    public $backoff = [60, 120];
 
 
     public function __construct(Article $article)

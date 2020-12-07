@@ -26,7 +26,7 @@ class FetchArticles implements ShouldQueue
 
     public $timeout = 580;
 
-    public $backoff = [30, 60, 90];
+    public $backoff = [60, 90, 120];
 
     public function __construct(int $current_page, int $results_per_page)
     {
