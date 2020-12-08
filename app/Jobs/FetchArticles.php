@@ -21,7 +21,7 @@ class FetchArticles implements ShouldQueue
 
     private bool $spawnNextPage = true;
 
-    public $timeout = 580;
+    public $timeout = 960;
 
     public $backoff = [60, 90, 120];
 
@@ -34,7 +34,7 @@ class FetchArticles implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addHours(2);
+        return now()->addHours(6);
     }
 
     public function get_current_page(): int

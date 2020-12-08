@@ -18,7 +18,7 @@ class FetchComments implements ShouldQueue
 
     private Article $article;
 
-    public $timeout = 300;
+    public $timeout = 960;
 
     public $backoff = [60, 120];
 
@@ -30,7 +30,7 @@ class FetchComments implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addHours(2);
+        return now()->addHours(6);
     }
 
     public function handle(): void
