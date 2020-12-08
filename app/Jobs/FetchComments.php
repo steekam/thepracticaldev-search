@@ -30,7 +30,7 @@ class FetchComments implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addHours(6);
+        return now()->addDay();
     }
 
     public function handle(): void

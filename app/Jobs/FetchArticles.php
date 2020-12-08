@@ -34,7 +34,7 @@ class FetchArticles implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addHours(6);
+        return now()->addDay();
     }
 
     public function get_current_page(): int
