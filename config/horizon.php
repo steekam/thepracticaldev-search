@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Horizon Domain
@@ -167,7 +166,7 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default', 'comments'],
+            'queue' => ['default'],
             'balance' => 'auto',
             'maxProcesses' => 1,
             'memory' => 128,
@@ -187,7 +186,16 @@ return [
 
         'local' => [
             'supervisor-1' => [
+                'maxProcesses' => 2,
+            ],
+            'supervisor-2' => [
+                'connection' => 'redis',
+                'queue' => ['comments'],
+                'balance' => 'auto',
                 'maxProcesses' => 6,
+                'memory' => 128,
+                'tries' => 1,
+                'nice' => 0,
             ],
         ],
     ],
