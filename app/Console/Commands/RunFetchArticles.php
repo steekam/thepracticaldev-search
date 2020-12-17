@@ -9,7 +9,7 @@ class RunFetchArticles extends Command
 {
     protected $signature = 'fetch_articles
     {--p|page=1 : The starting current page}
-    {--results=200 : The results per page}
+    {--results=100 : The results per page}
     {--currentonly : Only dispatch the current page}';
 
     protected $description = 'Dispatch the FetchArticles job';
