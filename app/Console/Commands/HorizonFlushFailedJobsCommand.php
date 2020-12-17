@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class HorizonFlushFailedJobsCommand extends Command
 {
@@ -13,10 +14,12 @@ class HorizonFlushFailedJobsCommand extends Command
 
     public function handle(): int
     {
-        $prefix = config('horizon.prefix');
-        // dump(Redis::del("{$prefix}failed_jobs"));
-        
-        dump("{$prefix}failed_jobs");
+        $redis = Redis::connection("horizon");
+
+        foreach($redis->keys("*failed*") as $key) {
+            $redis->del(Str::after($key, config('horizon.prefix')));
+        }
+
         $this->info("Cleared failed jobs");
 
         return 0;
