@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\FetchArticles;
-use Carbon\CarbonInterface;
+use App\Jobs\FetchArticlesJob;
 use Illuminate\Console\Command;
 
 class RunFetchArticles extends Command
@@ -17,12 +16,12 @@ class RunFetchArticles extends Command
 
     public function handle(): int
     {
-        $fetch_articles_job = new FetchArticles(
-            $this->option("page"),
-            $this->option("results")
+        $fetch_articles_job = new FetchArticlesJob(
+            $this->option('page'),
+            $this->option('results')
         );
 
-        if ($this->option("currentonly")) {
+        if ($this->option('currentonly')) {
             $fetch_articles_job->preventNextPageSpawn();
         }
 

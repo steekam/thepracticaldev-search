@@ -1,8 +1,7 @@
 <?php
 
-use App\Jobs\FetchArticles;
-use App\Models\Article;
-use Illuminate\Database\Eloquent\Collection;
+use App\Jobs\FetchArticlesJob;
+use app\models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use function Tests\mock_dev_api_requests;
@@ -16,25 +15,18 @@ beforeEach(function () {
 it('can fetch articles from dev.to API', function () {
     Queue::fake();
 
-    FetchArticles::dispatchNow(1, 1);
+    FetchArticlesJob::dispatchnow(1, 1);
 
-    Queue::assertPushed(function (FetchArticles $job) {
+    Queue::assertPushed(function (FetchArticlesJob $job) {
         return $job->get_current_page() == 2;
-
     });
 
-    $this->assertCount(1, $articles = Article::with('comments')->get());
-
-    $comments = $articles->first()->comments;
-
-    $this->assertTrue($comments->isNotEmpty());
-
-    $this->assertFalse(is_null($comments->first()->sentiment_score));
+    $this->assertSame(1, Article::count());
 });
 
 it('exits when articles endpoint returns nothing', function () {
     dispatch(
-        (new FetchArticles(2, 1))->preventNextPageSpawn()
+        (new FetchArticlesJob(2, 1))->preventnextpagespawn()
     );
 
     $this->assertCount(0, Article::all());

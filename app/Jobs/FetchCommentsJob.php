@@ -12,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
-class FetchComments implements ShouldQueue
+class FetchCommentsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,17 +20,15 @@ class FetchComments implements ShouldQueue
 
     public $timeout = 960;
 
-    public $backoff = [60, 120];
+    public $tries = 3;
 
+    public $maxExceptions = 2;
+
+    public $backoff = [60, 90];
 
     public function __construct(Article $article)
     {
         $this->article = $article->withoutRelations();
-    }
-
-    public function retryUntil()
-    {
-        return now()->addDay();
     }
 
     public function handle(): void
@@ -40,7 +38,5 @@ class FetchComments implements ShouldQueue
         ->filter(fn (Collection $comment_details) => ! empty($comment_details->get('user')))
         ->each->put('article_id', $this->article->id)
         ->map(fn (Collection $comment_details) => Comment::create_from_details($comment_details));
-
-        $this->article->classify_comments();
     }
 }

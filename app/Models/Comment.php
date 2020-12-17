@@ -37,6 +37,7 @@ class Comment extends Model
         collect($comment_details->get('children'))
         ->whenNotEmpty(function (Collection $children_collection) use ($comment) {
             $children_collection->mapInto(Collection::class)
+            ->filter(fn (Collection $child_comment_details) => ! empty($child_comment_details->get('user')))
             ->each(function (Collection $child_comment_details) use ($comment) {
                 Comment::create_from_details($child_comment_details->merge([
                     'article_id' => $comment->article_id,

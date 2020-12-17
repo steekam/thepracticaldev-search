@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
-class FetchArticles implements ShouldQueue
+class FetchArticlesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class FetchArticles implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addDay();
+        return now()->addHour();
     }
 
     public function get_current_page(): int
@@ -42,7 +42,7 @@ class FetchArticles implements ShouldQueue
         return $this->current_page;
     }
 
-    public function preventNextPageSpawn(): FetchArticles
+    public function preventNextPageSpawn(): self
     {
         $this->spawnNextPage = false;
 
@@ -59,7 +59,7 @@ class FetchArticles implements ShouldQueue
 
         $fetched_articles->mapInto(Collection::class)
         ->map(fn ($article_details) => Article::create_from_response($article_details))
-        ->each(fn (Article $article) => FetchComments::dispatch($article)->onQueue('comments'));
+        ->each(fn (Article $article) => FetchCommentsJob::dispatch($article)->onQueue('comments'));
 
         self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
     }
