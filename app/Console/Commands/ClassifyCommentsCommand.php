@@ -15,7 +15,7 @@ class ClassifyCommentsCommand extends Command
     public function handle(): int
     {
         // TODO: test after modifying model
-        
+
         Comment::unclassified()
         ->chunkById(500, function ($comments) {
             collect(CommentsRequest::getCommentsSentiment($comments))
