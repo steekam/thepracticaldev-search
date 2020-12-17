@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -62,5 +63,16 @@ class Comment extends Model
     public function parentComment()
     {
         return $this->belongsTo(Comment::class, 'parent_id_code', 'id_code');
+    }
+
+    public function scopeUnclassified(Builder $query): Builder
+    {
+        return $query->whereNull('sentiment_score');
+    }
+
+    public static function update_sentiment_from_api_response(array $response): void
+    {
+        static::where('id_code', $response['id'])
+        ->update(['sentiment_score' => $response['sentiment_score']]);
     }
 }

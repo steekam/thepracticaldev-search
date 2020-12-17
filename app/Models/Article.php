@@ -56,7 +56,7 @@ class Article extends Model
                 'user_id' => User::get_by_username($article_details['user']['username'])->id,
                 'body_html' => ArticleRequest::getSingleArticle($article_details['id'])['body_html'],
             ])->all();
-            
+
             $article = self::create($properties);
         }
 
@@ -65,16 +65,13 @@ class Article extends Model
 
     public function classify_comments(): void
     {
-        $comments = $this->comments()->whereNull('sentiment_score')->get();
+        $comments = $this->comments()->unclassified()->get();
 
         if ($comments->isEmpty()) {
             return;
         }
 
         collect(CommentsRequest::getCommentsSentiment($comments))
-        ->each(function (array $response) {
-            Comment::where('id_code', $response['id'])
-            ->update(['sentiment_score' => $response['sentiment_score']]);
-        });
+        ->each(fn (array $response) => Comment::update_sentiment_from_api_response($response));
     }
 }

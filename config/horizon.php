@@ -192,7 +192,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['comments'],
                 'balance' => 'auto',
-                'maxProcesses' => 6,
+                'maxProcesses' => 3,
                 'memory' => 128,
                 'tries' => 1,
                 'nice' => 0,
