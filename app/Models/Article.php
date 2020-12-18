@@ -22,7 +22,6 @@ class Article extends Model
         'path',
         'url',
         'canonical_url',
-        'comments_count',
         'public_reactions_count',
         'positive_reactions_count',
         'tags',

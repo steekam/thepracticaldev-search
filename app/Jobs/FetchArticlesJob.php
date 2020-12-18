@@ -22,9 +22,11 @@ class FetchArticlesJob implements ShouldQueue
 
     private bool $spawnNextPage = true;
 
-    public $timeout = 960;
+    public $timeout = 1260;
 
-    public $backoff = [120, 180, 240];
+    public $backoff = [90, 180];
+
+    public $maxExceptions = 4;
 
     public $tries = 5;
 
@@ -33,11 +35,6 @@ class FetchArticlesJob implements ShouldQueue
         $this->current_page = $current_page;
 
         $this->results_per_page = $results_per_page;
-    }
-
-    public function retryUntil()
-    {
-        return now()->addHour();
     }
 
     public function get_current_page(): int
