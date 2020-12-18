@@ -24,7 +24,7 @@ class FetchCommentsJob implements ShouldQueue
 
     public $maxExceptions = 2;
 
-    public $backoff = [60, 90];
+    public $backoff = [90, 120];
 
     public function __construct(Article $article)
     {

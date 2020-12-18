@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Redis;
 
 class FetchArticlesJob implements ShouldQueue
 {
@@ -23,7 +24,9 @@ class FetchArticlesJob implements ShouldQueue
 
     public $timeout = 960;
 
-    public $backoff = [60, 90, 120];
+    public $backoff = [120, 180, 240];
+
+    public $tries = 5;
 
     public function __construct(int $current_page, int $results_per_page)
     {
@@ -60,6 +63,11 @@ class FetchArticlesJob implements ShouldQueue
         $fetched_articles->mapInto(Collection::class)
         ->map(fn ($article_details) => Article::create_from_response($article_details))
         ->each(fn (Article $article) => FetchCommentsJob::dispatch($article)->onQueue('comments'));
+
+        Redis::hmset("last_successful_fetch_articles_job",
+        "current_page", $this->current_page,
+        "results_per_page", $this->results_per_page
+        );
 
         self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
     }
