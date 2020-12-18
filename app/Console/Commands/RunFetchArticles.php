@@ -23,12 +23,12 @@ class RunFetchArticles extends Command
 
         if ($this->option('continue')) {
             $stored_values = Redis::hgetall('last_successful_fetch_articles_job');
-            $page = $stored_values['page'];
+            $page = $stored_values['page'] + 1;
             $results_per_page = $stored_values['results_per_page'];
         }
 
         $this->info("Fetching page {$page} with {$results_per_page} results per page");
-
+        dd();
         $fetch_articles_job = new FetchArticlesJob($page, $results_per_page);
 
         if ($this->option('currentonly')) {
