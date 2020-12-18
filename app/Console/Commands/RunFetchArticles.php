@@ -27,6 +27,8 @@ class RunFetchArticles extends Command
             $results_per_page = $stored_values['results_per_page'];
         }
 
+        $this->info("Fetching page {$page} with {$results_per_page} results per page");
+
         $fetch_articles_job = new FetchArticlesJob($page, $results_per_page);
 
         if ($this->option('currentonly')) {
