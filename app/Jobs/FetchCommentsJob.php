@@ -20,9 +20,9 @@ class FetchCommentsJob implements ShouldQueue
 
     public $timeout = 960;
 
-    public $tries = 3;
+    public $tries = 5;
 
-    public $maxExceptions = 2;
+    public $maxExceptions = 4;
 
     public $backoff = [90, 120];
 
