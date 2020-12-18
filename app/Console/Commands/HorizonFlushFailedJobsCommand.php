@@ -16,13 +16,9 @@ class HorizonFlushFailedJobsCommand extends Command
     {
         $redis = Redis::connection("horizon");
 
-        collect($redis->keys("*failed*"))
-        ->map(fn($key) => Str::after($key, config('horizon.prefix')))
-        ->tap(fn ($keys) => $redis->del($keys));
-
-        // foreach($redis->keys("*failed*") as $key) {
-        //     $redis->del(Str::after($key, config('horizon.prefix')));
-        // }
+        foreach($redis->keys("*failed*") as $key) {
+            $redis->del(Str::after($key, config('horizon.prefix')));
+        }
 
         $this->info("Cleared all failed jobs successfully.");
 

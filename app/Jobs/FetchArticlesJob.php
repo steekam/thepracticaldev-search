@@ -26,9 +26,9 @@ class FetchArticlesJob implements ShouldQueue
 
     public $backoff = [90, 180];
 
-    public $maxExceptions = 4;
+    public $maxExceptions = 3;
 
-    public $tries = 5;
+    public $tries = 4;
 
     public function __construct(int $current_page, int $results_per_page)
     {
