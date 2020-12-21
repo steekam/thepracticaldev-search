@@ -5,6 +5,7 @@ namespace App\Models;
 use App\PracticalDevRequests\UserRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\RequestException;
 
 class User extends Model
 {
@@ -32,14 +33,20 @@ class User extends Model
             return $user;
         }
 
-        $user = new User(
-            collect(UserRequest::getByUsername($username))
-            ->only('id', 'username', 'name', 'profile_image')
-            ->all()
-        );
+        try {
+            $fetched_user = collect(UserRequest::getByUsername($username));
 
-        $user->save();
+            return static::updateOrCreate(
+                ['id' => $fetched_user['id']],
+                $fetched_user->only('username', 'name', 'profile_image')->all(),
+            );
+        } catch (RequestException $exception) {
+            // ? Skip comments with missing users
+            if ($exception->response->status() == 404) {
+                return false;
+            }
 
-        return $user;
+            throw $exception;
+        }
     }
 }

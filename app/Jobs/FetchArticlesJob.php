@@ -4,9 +4,11 @@ namespace App\Jobs;
 
 use App\Models\Article;
 use App\PracticalDevRequests\ArticleRequest;
+use Carbon\CarbonInterval;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
@@ -24,17 +26,20 @@ class FetchArticlesJob implements ShouldQueue
 
     public $timeout = 1260;
 
-    public $backoff = [90, 180];
+    public $maxExceptions = 2;
 
-    public $maxExceptions = 3;
-
-    public $tries = 4;
+    public $backoff = [180];
 
     public function __construct(int $current_page, int $results_per_page)
     {
         $this->current_page = $current_page;
 
         $this->results_per_page = $results_per_page;
+    }
+
+    public function retryUntil()
+    {
+        return now()->addHours(2);
     }
 
     public function get_current_page(): int
@@ -51,21 +56,32 @@ class FetchArticlesJob implements ShouldQueue
 
     public function handle(): void
     {
-        $fetched_articles = collect(ArticleRequest::getArticles($this->current_page, $this->results_per_page));
+        try {
+            $fetched_articles = collect(ArticleRequest::getArticles($this->current_page, $this->results_per_page));
 
-        if ($fetched_articles->isEmpty()) {
-            return;
+            if ($fetched_articles->isEmpty()) {
+                return;
+            }
+
+            $fetched_articles->mapInto(Collection::class)
+            ->map(fn ($article_details) => Article::create_from_response($article_details))
+            ->each(fn (Article $article) => FetchCommentsJob::dispatch($article)->onQueue('comments'));
+
+            Redis::hmset(
+                'last_successful_fetch_articles_job',
+                'current_page',
+                $this->current_page,
+                'results_per_page',
+                $this->results_per_page
+            );
+
+            self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
+        } catch (RequestException $exception) {
+             if ($exception->response->status() === 429) {
+                $this->release(CarbonInterval::minutes(4)->totalSeconds);
+                return;
+            }
+            throw $exception;
         }
-
-        $fetched_articles->mapInto(Collection::class)
-        ->map(fn ($article_details) => Article::create_from_response($article_details))
-        ->each(fn (Article $article) => FetchCommentsJob::dispatch($article)->onQueue('comments'));
-
-        Redis::hmset("last_successful_fetch_articles_job",
-        "current_page", $this->current_page,
-        "results_per_page", $this->results_per_page
-        );
-
-        self::dispatchIf($this->spawnNextPage, ++$this->current_page, $this->results_per_page);
     }
 }
