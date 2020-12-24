@@ -23,7 +23,7 @@ class RunFetchArticles extends Command
 
         if ($this->option('continue')) {
             $stored_values = Redis::hgetall('last_successful_fetch_articles_job');
-            $page = $stored_values['page'] + 1;
+            $page = $stored_values['current_page'] + 1;
             $results_per_page = $stored_values['results_per_page'];
         }
 
