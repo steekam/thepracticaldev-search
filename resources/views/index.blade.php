@@ -21,13 +21,30 @@
 
                     <div class="mt-8 sm:mt-12">
                         <form action="#" method="get" autocomplete="off">
-                            <div class="flex items-center px-4 bg-white rounded-full shadow sm:px-6 sm:py-3">
+                            <div>
+                                <label for="query" class="sr-only">Search Query</label>
+                                <div class="relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <x-heroicon-o-search class="w-6 h-6 text-gray-400 sm:w-10 sm:h-10" />
+                                  </div>
+
+                                  <input name="query" id="query" class="block w-full py-3 pl-10 pr-20 text-gray-700 border-gray-300 rounded-full shadow focus:ring-gray-800 focus:ring focus:outline-none focus:border-gray-800 sm:pl-14 sm:pr-32 sm:py-5 sm:text-xl" placeholder="Enter search keywords">
+
+                                  <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 mr-2 text-sm font-medium text-white bg-gray-900 border-transparent rounded-full shadow-sm sm:px-6 sm:py-3 sm:text-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            {{-- <div class="flex items-center px-4 bg-white rounded-full shadow group sm:px-6 sm:py-3">
                                 <div>
                                     <x-heroicon-o-search class="w-6 h-6 text-gray-400 sm:w-10 sm:h-10" />
                                 </div>
                                 <div class="flex-1">
                                     <label for="query" class="sr-only">Search Query</label>
-                                    <input class="block w-full py-3 border-none sm:text-lg focus:ring-0" type="text"
+                                    <input class="block w-full py-3 border-none sm:text-lg focus:ring-0 group-focus:ring-2" type="text"
                                         name="query" placeholder="Enter search keywords" id="query">
                                 </div>
 
@@ -35,7 +52,7 @@
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-900 border-transparent rounded-full shadow-sm sm:px-6 sm:py-3 sm:text-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
 
