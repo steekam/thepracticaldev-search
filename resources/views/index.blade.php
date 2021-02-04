@@ -20,7 +20,7 @@
             </div>
 
             <div class="mt-8 sm:mt-12">
-                <form action="#" method="get" autocomplete="off">
+                <form action="/search" method="get" autocomplete="off">
                     <div>
                         <label for="query" class="sr-only">Search Query</label>
                         <div class="relative rounded-md shadow-sm">
