@@ -58,10 +58,10 @@
                     {{-- Statistics: reaction_count, comments, positive, negative --}}
                     <div class="flex items-center mt-4 space-x-6">
                         <div class="inline-flex space-x-2">
-                            <x-heroicon-o-heart class="w-5 h-5 text-gray-700"/><span class="text-gray-600">{{$article->positive_reactions_count}} reactions</span>
+                            <x-heroicon-o-heart class="w-5 h-5 text-gray-700"/><span class="text-gray-600">{{$article->positive_reactions_count ?? '0'}} reactions</span>
                         </div>
                         <div class="inline-flex items-center space-x-2">
-                            <x-heroicon-o-chat class="w-5 h-5 text-gray-700"/><span class="text-gray-600">{{$article->comments_count}} comments</span>
+                            <x-heroicon-o-chat class="w-5 h-5 text-gray-700"/><span class="text-gray-600">{{$article->comments_count ?? '0' }} comments</span>
                         </div>
                     </div>
             </div>

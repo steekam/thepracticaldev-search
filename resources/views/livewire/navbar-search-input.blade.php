@@ -7,7 +7,7 @@
             </div>
             <input autocomplete="off" id="navbar-search" name="query"
                 wire:model.defer="query"
-                wire:keydown.enter="$set('query', $event.target.value)"
+                wire:keydown.enter="$emitTo('search-results','queryUpdated', $event.target.value)"
                 class="block w-full py-2 pl-10 pr-3 text-sm placeholder-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 placeholder="Search" type="search">
         </div>
