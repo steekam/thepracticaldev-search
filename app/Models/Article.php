@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -35,6 +36,11 @@ class Article extends Model
     public $incrementing = false;
 
     protected $dates = ['published_timestamp'];
+
+    public function getTagsListAttribute(): Collection
+    {
+        return Str::of($this->tags)->explode(',');
+    }
 
     public function user(): BelongsTo
     {

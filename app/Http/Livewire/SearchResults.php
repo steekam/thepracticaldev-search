@@ -14,7 +14,7 @@ class SearchResults extends Component
 
     public function getArticlesProperty(): Collection
     {
-        return Article::limit(5)->get();
+        return Article::with('user')->limit(5)->get();
     }
 
     public function render()
