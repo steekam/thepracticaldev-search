@@ -87,7 +87,7 @@ class SearchResults extends Component
         $this->articles->load('user');
     }
 
-    public function search()
+    public function searchArticles()
     {
         $this->articles = $this->fetchArticles();
     }
