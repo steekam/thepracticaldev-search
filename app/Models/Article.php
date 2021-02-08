@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Collections\ArticleCollection;
 use App\PracticalDevRequests\ArticleRequest;
 use App\PracticalDevRequests\CommentsRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +39,11 @@ class Article extends Model
     public $incrementing = false;
 
     protected $dates = ['published_timestamp'];
+
+    public function newCollection(array $models = [])
+    {
+        return new ArticleCollection($models);
+    }
 
     public function getTagsListAttribute(): Collection
     {
