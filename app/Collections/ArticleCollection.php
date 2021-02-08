@@ -11,7 +11,7 @@ class ArticleCollection extends Collection
     public function loadCommentCounts(): ArticleCollection
     {
         $this->loadCount([
-            'comments' => fn(Builder $query) => $query->whereNotNull('sentiment_score'), //TODO: temporary until classification job ends
+            'comments' => fn(Builder $query) => $query->whereNotNull('sentiment_score'),
             'comments as positive_comments_count' => function ($query) {
                 $query->where('sentiment_score', '>=', 0.5);
             },
