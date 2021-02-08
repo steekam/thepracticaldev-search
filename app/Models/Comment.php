@@ -21,6 +21,8 @@ class Comment extends Model
         'created_at'
     ];
 
+    protected $primaryKey = 'id_code';
+
     public $timestamps = false;
 
     public $incrementing = false;
@@ -68,6 +70,11 @@ class Comment extends Model
     public function scopeUnclassified(Builder $query): Builder
     {
         return $query->whereNull('sentiment_score');
+    }
+
+    public function scopeClassified(Builder $query): Builder
+    {
+        return $query->whereNotNull('sentiment_score');
     }
 
     public static function update_sentiment_from_api_response(array $response): void

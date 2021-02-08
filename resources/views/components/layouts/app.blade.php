@@ -10,7 +10,6 @@
                     </div>
                 </div>
 
-                <livewire:navbar-search-input/>
             </div>
         </div>
     </header>
