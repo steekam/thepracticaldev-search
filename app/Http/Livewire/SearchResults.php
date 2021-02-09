@@ -51,7 +51,7 @@ class SearchResults extends Component
                             ->loadCommentCounts()
                             ->loadSum('comments', 'sentiment_score');
 
-        if ($articles->empty()) {
+        if ($articles->isEmpty()) {
             return $articles;
         }
 

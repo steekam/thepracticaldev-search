@@ -55,7 +55,7 @@
             {{-- Search results container --}}
             <div class="flex flex-col w-full mt-8 sm:max-w-4xl">
                 <div class="space-y-6" wire:loading.remove wire:target="loadArticles, searchArticles">
-                    @if(empty($articles) && $ready_to_show)
+                    @if($articles->isEmpty() && $ready_to_show)
                         {{-- When no results are found --}}
                         <div class="flex items-center justify-center w-full px-4 py-5 bg-white border border-gray-200 rounded-md sm:px-6">
                             <div class="w-auto h-72">
